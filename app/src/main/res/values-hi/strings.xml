@@ -9,9 +9,11 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!--MainActivity-->
-    <string name="enter_email">Enter Email</string>
+
+    <string name="enter_email">ईमेल पता</string>
+    <!-- TODO:Configure all the msgs for hindi-->
     <string name="enter_password">Enter Password</string>
+
     <string name="attmps_rem">No. of attempts remaining : 5</string>
     <string name="attmps_rem_1">No. of attempts remaining : </string>
     <string name="forgot_password">Forgot Password?</string>
@@ -55,5 +57,4 @@
     <string name="next">Next</string>
 
     <string name="msg_registration_success">Registration Successful</string>
-
 </resources>

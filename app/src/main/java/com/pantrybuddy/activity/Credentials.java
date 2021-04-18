@@ -1,9 +1,9 @@
-package com.pantrybuddy;
+package com.pantrybuddy.activity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Credentials {
+public class  Credentials {
 
     HashMap<String,String> credentialsMapper = new HashMap<String,String>();
 
