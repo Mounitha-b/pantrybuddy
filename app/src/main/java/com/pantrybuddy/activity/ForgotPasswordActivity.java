@@ -148,6 +148,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
             }
         }
         //smsManager.sendTextMessage("15555215554", null, "Welcome to Pantry Buddy. Your OTP is :"+genOtp, null, null);
-        smsManager.sendTextMessage(phoneNum, null, R.string.msg_text_otp+genOtp, null, null);
+        smsManager.sendTextMessage(phoneNum, null, getString(R.string.msg_text_otp)+genOtp, null, null);
     }
 }
