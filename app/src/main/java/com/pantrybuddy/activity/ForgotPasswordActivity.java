@@ -46,7 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
             public void onClick(View v) {
                 String emailFP=eFPEmail.getText().toString();
                 if(emailFP.isEmpty()){
-                    Toast.makeText(getBaseContext(), R.string.msg_enter_email, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_enter_email), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     eOtp.setVisibility(View.VISIBLE);
@@ -61,7 +61,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
             public void onClick(View v) {
                 String otp=eOtp.getText().toString();
                 if(otp.isEmpty()){
-                    Toast.makeText(getBaseContext(), R.string.msg_enter_otp_to_verify, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_enter_otp_to_verify), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     verifyOtp(otp,eFPEmail.getText().toString());

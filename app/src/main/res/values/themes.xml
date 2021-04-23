@@ -22,4 +22,9 @@
     <style name="Theme.PantryBuddy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.PantryBuddy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <style name="Theme.PantryBuddy.CustomTheme" parent="Theme.PantryBuddy.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>

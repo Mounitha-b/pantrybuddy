@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.pantrybuddy.R;
 import com.pantrybuddy.server.Server;
+import com.pantrybuddy.stubs.GlobalClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 savedEmail =inputEmail;
                 savedPwd =inputPassword;
                 if (inputEmail.isEmpty() || inputPassword.isEmpty()) {
-                    Toast.makeText(getBaseContext(), R.string.msg_details_missing, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_details_missing), Toast.LENGTH_SHORT).show();
                 } else {
                     validate(inputEmail, inputPassword);
                 }
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     private void validate(String ename, String pword) {
         Server server = new Server(this);
-        JSONObject resp = new JSONObject();
         server.loginEmailPwd(ename, pword);
     }
 
@@ -121,11 +121,17 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         sharedPrefEditor.putString("LastSavedUserName", savedEmail);
                         sharedPrefEditor.putString("LastSavedPassword", savedPwd);
                         sharedPrefEditor.apply();
+
+                        GlobalClass globalClass=(GlobalClass)getApplicationContext();
+                        globalClass.setEmail(eEmail.getText().toString());
+                        //TODO: Set the first name and last name once logged in by accessing API
+//                        globalClass.setFirstName(regFirstName);
+//                        globalClass.setLastName(regLastName);
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if(code.equalsIgnoreCase("401") || code.equalsIgnoreCase("116")) {
                         counter--;
-                        eattmptsrem.setText(R.string.attmps_rem_1 + counter);
+                        eattmptsrem.setText(getString(R.string.attmps_rem_1) + counter);
                         if (counter == 0) {
                             eloginBut.setEnabled(false);
                         }

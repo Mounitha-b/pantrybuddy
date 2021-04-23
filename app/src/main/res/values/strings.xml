@@ -55,5 +55,21 @@
     <string name="next">Next</string>
 
     <string name="msg_registration_success">Registration Successful</string>
+    <string name="title_activity_add_item">AddItemActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <!--AddItemActivity-->
+
+    <string name="add_item">Add Item</string>
+    <string name="scan_bar_code">Scan Barcode</string>
+    <string name="item_name">Item Name : </string>
+    <string name="scan_date">Scan Date</string>
+    <string name="date">Date : </string>
+    <string name="done">Done</string>
+    <string name="msg_point_camera">Point Camera at Barcode</string>
+
 
 </resources>

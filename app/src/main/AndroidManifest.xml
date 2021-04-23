@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pantrybuddy" >
+    package="com.pantrybuddy">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -12,17 +20,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PantryBuddy"
-        android:usesCleartextTraffic="true" >
-        <activity android:name=".activity.ForgotPasswordActivity" >
-        </activity>
-        <activity android:name=".activity.CongratulationsActivity" >
-        </activity>
+        android:name=".stubs.GlobalClass"
+        android:usesCleartextTraffic="true">
+
+
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+
+        <activity android:name=".activity.ForgotPasswordActivity" />
+        <activity android:name=".activity.CongratulationsActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.RegistrationActivity" />
+        <activity android:name=".activity.AddItemActivity" />
+        <activity android:name=".activity.BarcodeScannerActivity" android:theme="@style/Theme.PantryBuddy.CustomTheme"/>
+
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PantryBuddy.NoActionBar" >
+            android:theme="@style/Theme.PantryBuddy.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

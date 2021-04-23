@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.pantrybuddy.R;
 import com.pantrybuddy.server.Server;
+import com.pantrybuddy.stubs.GlobalClass;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -70,7 +71,7 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
                 boolean valid =  Stream.of(regLastName, regPassword, regFirstName, regMobile, regEmail)
                         .allMatch(StringUtils::isNotBlank);
                 if(!valid){
-                    Toast.makeText(RegistrationActivity.this, R.string.msg_details_missing, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.msg_details_missing), Toast.LENGTH_SHORT).show();
                 }else {
                     /* Storing in shared Pref */
                     sharedPrefEditor.putString(regLastName, regPassword);
@@ -79,7 +80,10 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
                     sharedPrefEditor.putString("LastSavedPassword", regPassword);
                     /* Commits the changes and adds to the file */
                     sharedPrefEditor.apply();
-
+                    GlobalClass globalClass=(GlobalClass)getApplicationContext();
+                    globalClass.setEmail(regEmail);
+                    globalClass.setFirstName(regFirstName);
+                    globalClass.setLastName(regLastName);
                     callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
                 }
 
@@ -91,7 +95,6 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
 
     private void callSignUpApi(String regEmail, String regMobile, String regFirstName, String regLastName, String regPassword) {
         Server server = new Server(this);
-        JSONObject resp = new JSONObject();
         server.signUp(regEmail, regMobile, regFirstName, regLastName, regPassword);
     }
 
@@ -104,8 +107,9 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
             if (code != null && message != null) {
                 if (code.equalsIgnoreCase("201")) {
                     //TODO: Change to redirect to food preferences after sprint 1
+
                     startActivity(new Intent(RegistrationActivity.this, CongratulationsActivity.class));
-                    Toast.makeText(RegistrationActivity.this, R.string.msg_registration_success, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.msg_registration_success), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(RegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
                 }

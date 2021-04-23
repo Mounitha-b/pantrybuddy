@@ -16,13 +16,15 @@ import org.json.JSONObject;
 
 public class Server {
 
-    private static final String SERVER_NAME = "3.19.241.211";
+    private static final String SERVER_NAME = "128.195.27.49";
     private static final String SERVER_PORT = "8080";
     public static final String URL_SIGNUP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/create?";
     public static final String URL_LOGIN = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/login?";
     public static final String URL_GEN_OTP ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
     public static final String URL_VER_OTP ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
     public static final String URL_RES_PWD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/password?";
+
+    public static final String URL_SAVE_PROD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
 
     private static final String ERROR_TAG = "Web Service Error";
     private static final String INFO_TAG = "Web Service INFO";
@@ -64,7 +66,7 @@ public class Server {
 
     public void loginEmailPwd(String email, String password) {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_LOGIN + "&emailId=" + email + "&password=" + password;
+        String FinalURL = URL_LOGIN + "emailId=" + email + "&password=" + password;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -149,6 +151,25 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(ERROR_TAG, "Cannot reset password.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    public void saveProduct(String emailId, String productId,String expDate) {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_SAVE_PROD + "&emailId=" + emailId+"&productId="+productId +"&expiryDate="+expDate;
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // ((IWebService) context).processResponse(response);
+                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot save product.Error: " + error.toString());
             }
         });
         requestQueue.add(jsonObjectRequest);
