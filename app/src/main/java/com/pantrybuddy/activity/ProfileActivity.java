@@ -1,33 +1,103 @@
 package com.pantrybuddy.activity;
 
+import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Space;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pantrybuddy.R;
+import com.pantrybuddy.server.Server;
 
-public class ProfileActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private FloatingActionButton fabAddItem;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProfileActivity extends AppCompatActivity implements IWebService{
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        fabAddItem=findViewById(R.id.fabAddItem);
-
-        fabAddItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,AddItemActivity.class));
-            }
-        });
-
-
+        Log.d("debug", "onCreate: Fetching details of the user");
+        Server server = new Server(this);
+        JSONObject resp = new JSONObject();
+        //TODO: hardcoded email to be changed
+        server.fetchUserProducts("2arun.venkatesh@gmail.com");
     }
+
+
+    @Override
+    public void processResponse(JSONObject responseObj) throws JSONException {
+        if (responseObj != null) {
+            Log.d("response", "processResponse: " + responseObj);
+            String code = responseObj.get("Code").toString();
+            String message = responseObj.get("Message").toString();
+
+            if (code != null && message != null) {
+                JSONArray product_details = responseObj.getJSONArray("product_details");
+                ImageView imageView = findViewById(R.id.imageView);
+                TextView textView = findViewById(R.id.tvLoginMsg1);
+                TextView textView1 = findViewById(R.id.tvPantryMsg1);
+
+
+                if(product_details == null ||product_details.length() == 0){
+                    textView.setVisibility(View.VISIBLE);
+                    textView1.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.VISIBLE);
+                }else{
+                    textView.setVisibility(View.GONE);
+                    textView1.setVisibility(View.GONE);
+                    imageView.setVisibility(View.GONE);
+                    Log.d("response", "processResponse: " + responseObj);
+                    ArrayList<UserProduct> exampleList = new ArrayList<>();
+
+                    for(int i=0; i< product_details.length(); i++) {
+                        JSONObject object =  product_details.getJSONObject(i);
+                        exampleList.add(new UserProduct(object.getString("product_name"),object.getString("manufacturer"),object.getString("expiry_date"), object.getInt("count")));
+                    }
+                    mRecyclerView = findViewById(R.id.recycleView);
+                    StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+
+                    mAdapter = new ProductAdapter(exampleList);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+                    boolean includeEdge = true;
+                    mRecyclerView.addItemDecoration(new SpacesItemDecorator(1, 50, includeEdge));
+
+
+                }
+
+
+
+            }
+        }
+    }
+
 }
