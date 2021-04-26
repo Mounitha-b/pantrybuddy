@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.content.ContentValues.TAG;
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
         private ArrayList<UserProduct> mExampleList;
         public static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -30,6 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             public TextView mTextView1;
             public TextView mTextView2;
             public com.google.android.material.card.MaterialCardView card;
+            public FrameLayout frame;
 
 
             public ProductViewHolder(View itemView) {
@@ -37,6 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 mTextView1 = itemView.findViewById(R.id.textView);
                 mTextView2 = itemView.findViewById(R.id.textView2);
                 card = itemView.findViewById(R.id.cardview);
+                frame = itemView.findViewById(R.id.frame);
             }
         }
         public ProductAdapter(ArrayList<UserProduct> exampleList) {
@@ -60,18 +65,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             String currentDateString = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             Log.d("INFO", "onBindViewHolder: currentdate" + currentDateString);
             Date currentDate = getDate(currentDateString);
-           if(currentDate.after(date)){
-               Log.d("INFO", "onBindViewHolder: AFter");
-               holder.card.setCardBackgroundColor(Color.parseColor("#ED736F"));
-           }else{
-               if(currentDate.getYear() < date.getYear() || currentDate.getMonth() < date.getMonth()){
+
+
+              // holder.card.setCardBackgroundColor(Color.parseColor("#ED736F"));
+               if(currentDate.getYear() < date.getYear()){
                    return;
                }
-               Log.d("info", "onBindViewHolder: else");
-                if(currentDate.getDay() - date.getDay() <=3 ){
-                    holder.card.setCardBackgroundColor(Color.parseColor("#EF865B"));
-                }
-           }
+            Log.d(TAG, "onBindViewHolder: curr : " + currentDate.getMonth() + ",exp: " +  date.getMonth());
+               int difference = date.getDate() - currentDate.getDate();
+            Log.d(TAG, "onBindViewHolder: diff is " + difference);
+               if(currentDate.getYear() > date.getYear() ){
+                   holder.frame.setBackgroundColor(Color.parseColor("#ED736F"));
+               }else if(currentDate.getYear() == date.getYear()){
+                   if(currentDate.getMonth() < date.getMonth()){
+                       return;
+                   }
+                   if(currentDate.getMonth() > date.getMonth() || (currentDate.getMonth() ==  date.getMonth() && difference<=0)){
+                       holder.frame.setBackgroundColor(Color.parseColor("#ED736F"));
+                   }else if(difference <= 3){
+                       holder.frame.setBackgroundColor(Color.parseColor("#E6FE4E"));
+                   }
+               }
+
             Log.d("INFO", "onBindViewHolder: " + String.valueOf(currentItem.getExpiryDate()));
 
         }
