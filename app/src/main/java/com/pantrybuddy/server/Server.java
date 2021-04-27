@@ -25,6 +25,9 @@ public class Server {
     public static final String URL_RES_PWD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/password?";
 
     public static final String URL_SAVE_PROD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
+	
+    public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";	
+
 
     private static final String ERROR_TAG = "Web Service Error";
     private static final String INFO_TAG = "Web Service INFO";
@@ -173,5 +176,27 @@ public class Server {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+
+ public void fetchUserProducts(String email) {	
+        requestQueue = Volley.newRequestQueue(context);	
+        String FinalURL = URL_FETCH_USER_PRODUCTS + "emailId=" + email;	
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {	
+            @Override	
+            public void onResponse(JSONObject response) {	
+                try {	
+                    ((IWebService) context).processResponse(response);	
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + email );	
+                } catch (JSONException e) {	
+                    Log.d(ERROR_TAG, "Cannot fetch user products.Error: " + e.toString());	
+                }	
+            }	
+        }, new Response.ErrorListener() {	
+            @Override	
+            public void onErrorResponse(VolleyError error) {	
+                Log.d(ERROR_TAG, "Cannot sign up user.Error: " + error.toString());	
+            }	
+        });	
+        requestQueue.add(jsonObjectRequest);	
     }
 }
