@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.pantrybuddy.R;
 import com.pantrybuddy.server.Server;
+import com.pantrybuddy.stubs.GlobalClass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,8 @@ import java.util.List;
 public class ProfileActivity extends AppCompatActivity implements IWebService{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private ImageView imageAddItem;
+    GlobalClass globalClass;
 
 
     @Override
@@ -45,11 +48,21 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        globalClass= (GlobalClass)getApplicationContext();
         Log.d("debug", "onCreate: Fetching details of the user");
+        String emailId = globalClass.getEmail();
         Server server = new Server(this);
         JSONObject resp = new JSONObject();
-        //TODO: hardcoded email to be changed
-        server.fetchUserProducts("2arun.venkatesh@gmail.com");
+
+        server.fetchUserProducts(emailId);
+        imageAddItem=(ImageView)findViewById(R.id.imageView);
+        imageAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, AddItemActivity.class));
+            }
+        });
+
     }
 
 

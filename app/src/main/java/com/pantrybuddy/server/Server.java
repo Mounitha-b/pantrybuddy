@@ -163,7 +163,9 @@ public class Server {
     public void saveProduct(String emailId, String productId,String expDate) {
         requestQueue = Volley.newRequestQueue(context);
         String FinalURL = URL_SAVE_PROD + "&emailId=" + emailId+"&productId="+productId +"&expiryDate="+expDate;
+        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
                 // ((IWebService) context).processResponse(response);

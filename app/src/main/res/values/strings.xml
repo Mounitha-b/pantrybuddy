@@ -42,7 +42,7 @@
 
     <!--ProfileActivity-->
     <string name="welcome_pantry_buddy">Welcome to Pantry Buddy!!</string>
-    <string name="items_in_pantry">Items in Pantry : </string>
+    <string name="items_in_pantry">Please click on the above image to add items </string>
 
     <!--RegistrationActivity-->
     <string name="welcome">Welcome,</string>
