@@ -50,6 +50,8 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
 
         sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
         sharedPrefEditor = sharedPreferences.edit();
+        getSupportActionBar().hide();
+
 
 
         eRegPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {

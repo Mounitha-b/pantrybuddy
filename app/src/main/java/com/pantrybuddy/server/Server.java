@@ -1,6 +1,9 @@
 package com.pantrybuddy.server;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -9,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.pantrybuddy.R;
 import com.pantrybuddy.activity.IWebService;
 
 import org.json.JSONException;
@@ -16,7 +20,7 @@ import org.json.JSONObject;
 
 public class Server {
 
-    private static final String SERVER_NAME = "128.195.27.49";
+    private static final String SERVER_NAME = "192.168.0.179";
     private static final String SERVER_PORT = "8080";
     public static final String URL_SIGNUP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/create?";
     public static final String URL_LOGIN = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/login?";

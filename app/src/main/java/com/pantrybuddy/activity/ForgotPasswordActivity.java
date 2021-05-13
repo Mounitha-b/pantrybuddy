@@ -40,6 +40,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
         eVerfifyOtp=findViewById(R.id.btnVerifyOtp);
         eNewPwd=findViewById(R.id.etNewPwd);
         ebtnSubmitFP=findViewById(R.id.btnSubmitFP);
+        getSupportActionBar().hide();
+
 
         ebtnOtp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +130,12 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
         }
     }
 
-    private void sendOtpMessage(String phoneNum,String genOtp) {
+    public void sendOtpMessage(String phoneNum,String genOtp) {
 
         SmsManager smsManager = SmsManager.getDefault();
         //TODO change the hardcoded phone num
 
-         final int PERMISSION_REQUEST_CODE = 1;
+        final int PERMISSION_REQUEST_CODE = 1;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
@@ -150,4 +152,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
         //smsManager.sendTextMessage("15555215554", null, "Welcome to Pantry Buddy. Your OTP is :"+genOtp, null, null);
         smsManager.sendTextMessage(phoneNum, null, getString(R.string.msg_text_otp)+genOtp, null, null);
     }
+
+
 }
