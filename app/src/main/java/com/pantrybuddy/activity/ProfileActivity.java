@@ -22,11 +22,13 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.card.MaterialCardView;
 import com.pantrybuddy.R;
 import com.pantrybuddy.server.Server;
 import com.pantrybuddy.stubs.GlobalClass;
@@ -44,11 +46,11 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
     private ImageView imageAddItem;
     GlobalClass globalClass;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("Collections");
 
@@ -113,12 +115,12 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
 
                     for(int i=0; i< product_details.length(); i++) {
                         JSONObject object =  product_details.getJSONObject(i);
-                        exampleList.add(new UserProduct(object.getString("product_name"),object.getString("manufacturer"),object.getString("expiry_date"), object.getInt("count")));
+                        exampleList.add(new UserProduct(object.getString("product_name"),object.getString("manufacturer"),object.getString("expiry_date"), object.getInt("count"), object.getString("image"), object.getString("ingredients"), object.getString("serving_size")));
                     }
                     mRecyclerView = findViewById(R.id.recycleView);
                     StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
 
-                    mAdapter = new ProductAdapter(exampleList);
+                    mAdapter = new ProductAdapter(this, exampleList);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
                     boolean includeEdge = true;

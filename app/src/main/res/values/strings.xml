@@ -54,7 +54,7 @@
     <string name="password">Password</string>
     <string name="password_rules">Password should be greater than 5 characters and have atleast one upper case letter, lowercase letter and number.</string>
     <string name="next">Next</string>
-    <string name= "verify_user">Verify Identity</string>
+    <string name="verify_user">Verify Identity</string>
     <string name="msg_registration_success">Registration Successful</string>
     <string name="title_activity_add_item">AddItemActivity</string>
     <!--
@@ -72,6 +72,12 @@
     <string name="date">Date : </string>
     <string name="done">Done</string>
     <string name="msg_point_camera">Point Camera at Barcode</string>
+    <string name="title_activity_pop_up">PopUpActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
 
 </resources>
