@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private EditText ePassword;
     private TextView eattmptsrem;
     private Button eloginBut;
-    private Button eSignUp;
+    private TextView eSignUp;
     private CheckBox eRemMe;
     private  TextView eForgotPwd;
 
@@ -140,4 +140,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 }
             }
     }
+
+
+
 }

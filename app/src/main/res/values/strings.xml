@@ -19,6 +19,7 @@
     <string name="remember_me">Remember Me</string>
     <string name="new_user">New User?</string>
     <string name="sign_up">Sign Up</string>
+    <string name="welcome">Welcome to Pantry Buddy</string>
 
     <string name="msg_details_missing">Please enter all the details!</string>
 
@@ -41,11 +42,11 @@
     <string name="msg_text_otp">Welcome to Pantry Buddy. Your OTP is :</string>
 
     <!--ProfileActivity-->
-    <string name="welcome_pantry_buddy">Welcome to Pantry Buddy!!</string>
-    <string name="items_in_pantry">Please click on the above image to add items </string>
+    <string name="empty_pantry">Uh Oh! It looks empty in here.</string>
+    <string name="items_in_pantry">Get started using the \'+\' icon</string>
 
     <!--RegistrationActivity-->
-    <string name="welcome">Welcome,</string>
+    <string name="register_with_us">Create your free account</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="phone_num">Phone Number</string>
@@ -53,14 +54,15 @@
     <string name="password">Password</string>
     <string name="password_rules">Password should be greater than 5 characters and have atleast one upper case letter, lowercase letter and number.</string>
     <string name="next">Next</string>
-
+    <string name="verify_user">Verify Identity</string>
     <string name="msg_registration_success">Registration Successful</string>
     <string name="title_activity_add_item">AddItemActivity</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+
+
     <!--AddItemActivity-->
 
     <string name="add_item">Add Item</string>
@@ -70,6 +72,12 @@
     <string name="date">Date : </string>
     <string name="done">Done</string>
     <string name="msg_point_camera">Point Camera at Barcode</string>
+    <string name="title_activity_pop_up">PopUpActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
 
     <!--Food Pref -->

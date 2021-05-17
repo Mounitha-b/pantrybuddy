@@ -1,9 +1,17 @@
 package com.pantrybuddy.stubs;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 public class GlobalClass extends Application {
+    private static Context context;
 
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
+    }
 
     private String email;
     private String FirstName;
@@ -52,4 +60,10 @@ public class GlobalClass extends Application {
     public void setLastName(String lastName) {
         LastName = lastName;
     }
+
+    public Drawable getDrawable(String name) {
+        int resourceId = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
+        return context.getResources().getDrawable(resourceId);
+    }
+
 }

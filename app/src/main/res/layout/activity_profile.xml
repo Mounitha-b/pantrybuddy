@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProfileActivity">
+    tools:context=".activity.ProfileActivity"
+    >
 
     <TextView
         android:id="@+id/tvLoginMsg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_pantry_buddy"
+        android:text="@string/empty_pantry"
         android:textSize="24sp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -37,24 +38,23 @@
         android:id="@+id/imageView"
         android:layout_width="121dp"
         android:layout_height="133dp"
+        android:clickable="true"
+        android:focusable="true"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLoginMsg1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLoginMsg1"
-        app:srcCompat="@drawable/buffet_icon"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="230dp"
-        android:clickable="true"
-        android:focusable="true"/>
+        app:srcCompat="@drawable/buffet_icon" />
 
-    <androidx.recyclerview.widget.RecyclerView
+      <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding = "4dp"
         android:scrollbars="vertical"
         >
+
     </androidx.recyclerview.widget.RecyclerView>
 
 
