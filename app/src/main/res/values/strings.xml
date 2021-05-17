@@ -72,4 +72,9 @@
     <string name="msg_point_camera">Point Camera at Barcode</string>
 
 
+    <!--Food Pref -->
+    <string name="foodPref">Food Preferences</string>
+    <string name="favfood">What are your favorite foods?</string>
+    <string name="allergfood">What foods are you allergic to or dislike?</string>
+
 </resources>

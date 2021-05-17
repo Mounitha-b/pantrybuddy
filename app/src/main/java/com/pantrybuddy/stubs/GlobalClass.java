@@ -9,6 +9,26 @@ public class GlobalClass extends Application {
     private String FirstName;
     private String LastName;
 
+    public String getPasssword() {
+        return passsword;
+    }
+
+    public void setPasssword(String passsword) {
+        this.passsword = passsword;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    private String passsword;
+    private String number;
+
+
     public String getEmail() {
         return email;
     }

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.text.TextRecognizer;
 import com.pantrybuddy.R;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.vision.CameraSource;
@@ -38,13 +43,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class AddItemActivity extends AppCompatActivity {
 
     private Button bScanBarcode;
     private TextView eItemName;
-    private Button bScanDate;
-    private EditText eDate;
+
+    private TextView eDate;
     private Button bDone;
 
     private SurfaceView surfaceView;
@@ -54,6 +60,11 @@ public class AddItemActivity extends AppCompatActivity {
     private ToneGenerator toneGen1;
     private TextView barcodeText;
     private String barcodeData;
+
+    private TextRecognizer textRecognizer;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    String expiryDate;
 
 
     RequestQueue queue;
@@ -67,12 +78,43 @@ public class AddItemActivity extends AppCompatActivity {
 
         bScanBarcode=findViewById(R.id.btnScanBarCode);
         eItemName=findViewById(R.id.mltItemName);
-        bScanDate=findViewById(R.id.btnScanDate);
+
         eDate=findViewById(R.id.etDate);
         bDone=findViewById(R.id.btnDone);
         surfaceView=findViewById(R.id.svBarcodeScan);
         globalClass= (GlobalClass)getApplicationContext();
         queue = Volley.newRequestQueue(this);
+
+
+//        bScanDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                textRecognizer();
+//            }
+//        });
+
+        eDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal= Calendar.getInstance();
+                int year= cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day= cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog= new DatePickerDialog(AddItemActivity.this, android.R.style.Theme_Holo_Dialog_MinWidth,
+                        mDateSetListener, year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener= new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                 expiryDate=Integer.toString(year)+"-"+Integer.toString(month+1)+"-"+Integer.toString(dayOfMonth);
+            }
+        };
+
         bDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,8 +123,7 @@ public class AddItemActivity extends AppCompatActivity {
                     String emailId = globalClass.getEmail();
                     Log.d("INFO", "Email of user :" + emailId);
                     //Calling the product API to store the product details.
-                    //TODO: set the expiry date
-                    String expiryDate = "2021-01-01";
+
                     server = new Server(getApplicationContext());
                     server.saveProduct(emailId, productId, expiryDate);
                 }
@@ -105,6 +146,11 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
     }
+
+//    private void textRecognizer() {
+//
+//        textRecognizer=new TextRecognizer.Builder(getApplicationContext().build());
+//    }
 
     private void initialiseDetectorsAndSources(RequestQueue queue) {
 
