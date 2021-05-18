@@ -133,7 +133,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
     public void sendOtpMessage(String phoneNum,String genOtp) {
 
         SmsManager smsManager = SmsManager.getDefault();
-        //TODO change the hardcoded phone num
 
         final int PERMISSION_REQUEST_CODE = 1;
 

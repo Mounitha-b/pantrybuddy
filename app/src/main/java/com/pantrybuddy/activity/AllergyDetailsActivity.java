@@ -25,6 +25,7 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
     private Button next;
     GlobalClass globalClass;
     Server server;
+    StringBuilder productNames=new StringBuilder();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
         globalClass= (GlobalClass)getApplicationContext();
 
         List<Product> products= new ArrayList<>();
+
 
         Product almonds = new Product();
         almonds.image=R.drawable.almonds;
@@ -100,7 +102,7 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
             @Override
             public void onClick(View v) {
                 List<Product> selectedProducts = productsAdaptor.getSelectedProducts();
-                StringBuilder productNames=new StringBuilder();
+
 
                 for(int i=0;i<selectedProducts.size();i++){
                     if(i==0){
@@ -109,25 +111,24 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
                         productNames.append(",").append(selectedProducts.get(i).name);
                     }
                 }
-                //TODO : Save details to DB
+
 
                 String regLastName = globalClass.getLastName();
                 String regPassword = globalClass.getPasssword();
                 String regFirstName = globalClass.getFirstName();
                 String regMobile = globalClass.getNumber();
                 String regEmail = globalClass.getEmail();
+                callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
 
-                saveAllergyDetails(regEmail,productNames);
 
             }
         });
-
-
-
-
     }
 
-
+    private void callSignUpApi(String regEmail, String regMobile, String regFirstName, String regLastName, String regPassword) {
+        Server server = new Server(this);
+        server.signUp(regEmail, regMobile, regFirstName, regLastName, regPassword);
+    }
 
     @Override
     public void onProductsAction(Boolean isSelected) {
@@ -145,15 +146,25 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
         if (responseObj != null) {
             String code = responseObj.get("Code").toString();
             String message = responseObj.get("Message").toString();
+            String type=responseObj.get("Type").toString();
             if (code != null && message != null) {
-                if (code.equalsIgnoreCase("200")) {
+                if (type.equalsIgnoreCase("SaveAllergyDetails")) {
+                    if (code.equalsIgnoreCase("200")) {
+                        //startActivity(new Intent(RegistrationActivity.this, CongratulationsActivity.class));
+                        startActivity(new Intent(AllergyDetailsActivity.this, CongratulationsActivity.class));
 
-                    //startActivity(new Intent(RegistrationActivity.this, CongratulationsActivity.class));
-                    startActivity(new Intent(AllergyDetailsActivity.this, ProfileActivity.class));
+                        //Toast.makeText(AllergyDetailsActivity.this, getString(R.string.msg_registration_success), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }else if(type.equalsIgnoreCase("SignUp")){
+                    if (code.equalsIgnoreCase("201")) {
+                        String regEmail = globalClass.getEmail();
+                        saveAllergyDetails(regEmail,productNames);
+                    } else {
+                        Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
 
-                    Toast.makeText(AllergyDetailsActivity.this, getString(R.string.msg_registration_success), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
             }
         }

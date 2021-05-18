@@ -112,6 +112,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                  expiryDate=Integer.toString(year)+"-"+Integer.toString(month+1)+"-"+Integer.toString(dayOfMonth);
+                eDate.setText(expiryDate);
             }
         };
 

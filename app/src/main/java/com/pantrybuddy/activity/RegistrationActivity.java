@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.stream.Stream;
 
-public class RegistrationActivity extends AppCompatActivity implements IWebService {
+public class RegistrationActivity extends AppCompatActivity  {
     private EditText eLastName;
     private EditText eFirstName;
     private EditText eEmail;
@@ -86,43 +86,20 @@ public class RegistrationActivity extends AppCompatActivity implements IWebServi
                     globalClass.setEmail(regEmail);
                     globalClass.setFirstName(regFirstName);
                     globalClass.setLastName(regLastName);
+                    globalClass.setPasssword(regPassword);
+                    globalClass.setNumber(regMobile);
 
-                    //TODO: change this uncomment after testing
-                    callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
+
+                    //callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
                     startActivity(new Intent(RegistrationActivity.this, FoodPreferencesActivity.class));
-
-
                 }
-
-
 
         }
     });
 }
 
-    private void callSignUpApi(String regEmail, String regMobile, String regFirstName, String regLastName, String regPassword) {
-        Server server = new Server(this);
-        server.signUp(regEmail, regMobile, regFirstName, regLastName, regPassword);
-    }
 
 
-    @Override
-    public void processResponse(JSONObject responseObj) throws JSONException {
-        if (responseObj != null) {
-            String code = responseObj.get("Code").toString();
-            String message = responseObj.get("Message").toString();
-            if (code != null && message != null) {
-                if (code.equalsIgnoreCase("201")) {
-                    //TODO: Change to redirect to food preferences after sprint 1
 
-                    //startActivity(new Intent(RegistrationActivity.this, CongratulationsActivity.class));
-                    startActivity(new Intent(RegistrationActivity.this, FoodPreferencesActivity.class));
 
-                    Toast.makeText(RegistrationActivity.this, getString(R.string.msg_registration_success), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(RegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
 }

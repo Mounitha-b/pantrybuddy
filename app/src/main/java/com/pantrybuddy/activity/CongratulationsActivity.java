@@ -76,6 +76,7 @@ public class CongratulationsActivity extends AppCompatActivity implements IWebSe
                     if(type.equalsIgnoreCase("Generate")) {
                         genOtp = responseObj.get("otp").toString();
                         String phoneNum = responseObj.get("phone_number").toString();
+                        Log.d("INFO", "OTP is "+genOtp);
                         sendOtpMessage(phoneNum, genOtp);
                         Toast.makeText(CongratulationsActivity.this, message, Toast.LENGTH_SHORT).show();
                     }else if (type.equalsIgnoreCase("Verify")){
@@ -95,7 +96,7 @@ public class CongratulationsActivity extends AppCompatActivity implements IWebSe
     public void sendOtpMessage(String phoneNum,String genOtp) {
 
         SmsManager smsManager = SmsManager.getDefault();
-        //TODO change the hardcoded phone num
+       
 
         final int PERMISSION_REQUEST_CODE = 1;
 

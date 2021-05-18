@@ -51,7 +51,7 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
+                    response.put("Type","SignUp");
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " firstname:" + firstName + " lastName:" + lastName + " email:" + email + " phoneNumber:" + mobile + " password:" + password);
 
@@ -212,6 +212,7 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    response.put("Type","SaveAllergyDetails");
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
                 } catch (JSONException e) {
