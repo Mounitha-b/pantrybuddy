@@ -91,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity  {
 
 
                     //callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
-                    startActivity(new Intent(RegistrationActivity.this, FoodPreferencesActivity.class));
+                    startActivity(new Intent(RegistrationActivity.this, AllergyDetailsActivity.class));
                 }
 
         }

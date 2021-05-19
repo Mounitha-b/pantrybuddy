@@ -23,6 +23,7 @@
         android:theme="@style/Theme.PantryBuddy"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.StockPreferenceActivity"></activity>
+        <activity android:name=".activity.PopUpActivity" android:theme="@style/Theme.PantryBuddy.PopUp"></activity>
         <activity android:name=".activity.AllergyDetailsActivity" />
         <activity android:name=".activity.FoodPreferencesActivity" />
 

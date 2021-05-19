@@ -78,9 +78,9 @@
 
     <TextView
         android:id="@+id/etDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
+        android:layout_width="206dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="132dp"
         android:background="@drawable/round_border"
         android:drawablePadding="16dp"
         android:ems="10"
@@ -89,14 +89,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.752" />
+        app:layout_constraintVertical_bias="0.754" />
 
     <Button
         android:id="@+id/btnDone"
         android:layout_width="304dp"
         android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="68dp"
         android:background="@drawable/round_border"
         android:text="@string/done"
         app:layout_constraintBottom_toBottomOf="parent"
