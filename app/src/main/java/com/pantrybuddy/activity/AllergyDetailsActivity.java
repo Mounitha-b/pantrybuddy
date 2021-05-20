@@ -30,6 +30,8 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allergy_details);
+        getSupportActionBar().setTitle("Pantry Buddy");
+        getSupportActionBar().setLogo(R.drawable.logo);
         RecyclerView productRecyclerView= findViewById(R.id.productsRecyclerView2);
         next= findViewById(R.id.btnAllergNext);
         globalClass= (GlobalClass)getApplicationContext();

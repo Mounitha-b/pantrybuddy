@@ -27,7 +27,7 @@ public class Server {
     public static final String URL_ALLERG ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/allergy?";
 
     public static final String URL_SAVE_PROD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
-	
+    public static final String URL_SAVE_PROD_MANUAL ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/productManual?";
     public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";	
 
 
@@ -165,6 +165,26 @@ public class Server {
     public void saveProduct(String emailId, String productId,String expDate) {
         requestQueue = Volley.newRequestQueue(context);
         String FinalURL = URL_SAVE_PROD + "&emailId=" + emailId+"&productId="+productId +"&expiryDate="+expDate;
+        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                // ((IWebService) context).processResponse(response);
+                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot save product.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public void saveProductManual(String emailId, String itemName,String expDate) {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_SAVE_PROD_MANUAL + "&emailId=" + emailId+"&itemName="+itemName +"&expiryDate="+expDate;
         Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
 

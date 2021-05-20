@@ -166,7 +166,8 @@
         android:text="@string/register_with_us"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
-        android:textSize="30sp"
+        android:textSize="35sp"
+        android:fontFamily="@font/satisfyregular"
         app:layout_constraintStart_toStartOf="@+id/topView"
         app:layout_constraintTop_toTopOf="parent" />
 

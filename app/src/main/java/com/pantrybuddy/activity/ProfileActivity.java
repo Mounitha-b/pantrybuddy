@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().setTitle("Collections");
+        getSupportActionBar().setTitle("Your Pantry");
 
         globalClass= (GlobalClass)getApplicationContext();
         Log.d("debug", "onCreate: Fetching details of the user");

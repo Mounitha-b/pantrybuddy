@@ -12,7 +12,7 @@
         android:id="@+id/layoutHeader2"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="#00BCD4"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
@@ -30,6 +30,7 @@
             android:textColor="#6826DD"
             android:typeface="sans"
             android:textSize="20dp"
+            android:fontFamily="@font/handleeregular"
             android:textStyle="bold"/>
 
     </LinearLayout>

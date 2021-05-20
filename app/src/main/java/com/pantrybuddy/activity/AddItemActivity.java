@@ -120,13 +120,15 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String productId=barcodeData;
+                String emailId = globalClass.getEmail();
+                Log.d("INFO", "Email of user :" + emailId);
+                //Calling the product API to store the product details.
+                server = new Server(getApplicationContext());
                 if(productId!=null && !productId.isEmpty()) {
-                    String emailId = globalClass.getEmail();
-                    Log.d("INFO", "Email of user :" + emailId);
-                    //Calling the product API to store the product details.
-
-                    server = new Server(getApplicationContext());
                     server.saveProduct(emailId, productId, expiryDate);
+                }else{
+                    String itemName=barcodeText.getText().toString();
+                    server.saveProductManual(emailId, itemName, expiryDate);
                 }
 
                 startActivity(new Intent(AddItemActivity.this,ProfileActivity.class));
@@ -137,8 +139,6 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //TODO: Try to make the barcode like a pop up
-                //startActivity(new Intent(AddItemActivity.this, BarcodeScannerActivity.class));
                 surfaceView.setVisibility(View.VISIBLE);
                 toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 barcodeText = findViewById(R.id.mltItemName);
@@ -232,24 +232,20 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void getAPIResult(RequestQueue queue) {
-        String url = "https://api.upcdatabase.org/product/" + barcodeText.getText().toString() + "?apikey=5A7E28020FB2A4F78A8DE783FF2B3444\n";
+
+        //String url = "https://api.upcdatabase.org/product/" + barcodeText.getText().toString() + "?apikey=5A7E28020FB2A4F78A8DE783FF2B3444\n";
+        String url = "https://go.littlebunch.com/v1/food/" + barcodeText.getText().toString();
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
-
-
                     Log.d("INFO", "Webservice called :" + url );
-                    String title=response.get("title").toString();
-                    String descp=response.get("description").toString();
-                    if(title!=null && !title.isEmpty()){
+                    String title=response.get("foodDescription").toString();
+                    if(title!=null && !title.isEmpty())
                         barcodeText.setText(title);
-                    }else{
-                        barcodeText.setText(descp);
+                    else{
+                        barcodeText.setText("");
                     }
-
-
                 } catch (JSONException e) {
                     Log.d("ERROR", "ERROR in upc webservice " + e.toString());
                 }

@@ -63,6 +63,7 @@
         android:layout_height="150dp"
         android:gravity="center"
         android:text="@string/register_with_us"
+        android:fontFamily="@font/satisfyregular"
         android:textColor="@color/white"
         android:textSize="30sp" />
 
