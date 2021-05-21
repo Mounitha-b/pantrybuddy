@@ -120,17 +120,14 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
                 String regFirstName = globalClass.getFirstName();
                 String regMobile = globalClass.getNumber();
                 String regEmail = globalClass.getEmail();
-                callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
+                saveAllergyDetails(regEmail, productNames);
 
 
             }
         });
     }
 
-    private void callSignUpApi(String regEmail, String regMobile, String regFirstName, String regLastName, String regPassword) {
-        Server server = new Server(this);
-        server.signUp(regEmail, regMobile, regFirstName, regLastName, regPassword);
-    }
+
 
     @Override
     public void onProductsAction(Boolean isSelected) {
@@ -148,28 +145,16 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
         if (responseObj != null) {
             String code = responseObj.get("Code").toString();
             String message = responseObj.get("Message").toString();
-            String type=responseObj.get("Type").toString();
+
             if (code != null && message != null) {
-                if (type.equalsIgnoreCase("SaveAllergyDetails")) {
-                    if (code.equalsIgnoreCase("200")) {
-                        //startActivity(new Intent(RegistrationActivity.this, CongratulationsActivity.class));
-                        startActivity(new Intent(AllergyDetailsActivity.this, CongratulationsActivity.class));
-
-                        //Toast.makeText(AllergyDetailsActivity.this, getString(R.string.msg_registration_success), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }else if(type.equalsIgnoreCase("SignUp")){
-                    if (code.equalsIgnoreCase("201")) {
-                        String regEmail = globalClass.getEmail();
-                        saveAllergyDetails(regEmail,productNames);
-                    } else {
-                        Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-
+                if (code.equalsIgnoreCase("200")) {
+                    startActivity(new Intent(AllergyDetailsActivity.this, ProfileActivity.class));
+                } else {
+                    Toast.makeText(AllergyDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
-            }
         }
+            }
+
     }
 
 }

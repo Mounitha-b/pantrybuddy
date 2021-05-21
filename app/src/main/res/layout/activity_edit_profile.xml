@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".activity.RegistrationActivity">
+    tools:context=".activity.EditProfileActivity">
 
     <EditText
         android:id="@+id/etFirstName"
@@ -60,11 +60,11 @@
         android:padding="16dp"
         android:ems="10"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etLastName"
         android:layout_marginTop="10dp"
+        android:inputType="none"
         />
 
     <EditText
@@ -85,6 +85,25 @@
         android:padding="16dp"
         android:layout_marginTop="10dp"
         />
+
+    <TextView
+        android:id="@+id/etPwdMsg"
+        android:layout_width="314dp"
+        android:layout_height="43dp"
+        android:background="@null"
+        android:drawableStart="@drawable/ic_help"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:password="false"
+        android:text="@string/password_rules"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.835"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRegPwd" />
+
 
     <EditText
         android:id="@+id/etRegPwd"
@@ -111,31 +130,14 @@
         android:id="@+id/btnNext1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRegPwd"
-        app:layout_constraintVertical_bias="0.546" />
+        app:layout_constraintVertical_bias="0.223" />
 
-    <TextView
-        android:id="@+id/etPwdMsg"
-        android:layout_width="314dp"
-        android:layout_height="43dp"
-        android:background="@null"
-        android:drawableStart="@drawable/ic_help"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:password="false"
-        android:text="@string/password_rules"
-        android:textSize="10sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.835"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegPwd" />
 
     <View
         android:id="@+id/topView"
@@ -164,7 +166,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/register_with_us"
+        android:text="Edit Your Profile"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
         android:textSize="35sp"

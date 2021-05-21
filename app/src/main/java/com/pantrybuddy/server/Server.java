@@ -25,7 +25,7 @@ public class Server {
     public static final String URL_VER_OTP ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
     public static final String URL_RES_PWD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/password?";
     public static final String URL_ALLERG ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/allergy?";
-
+    private static final String URL_EDIT_PROFILE = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/editProfile?";
     public static final String URL_SAVE_PROD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
     public static final String URL_SAVE_PROD_MANUAL ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/productManual?";
     public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";	
@@ -33,6 +33,7 @@ public class Server {
 
     private static final String ERROR_TAG = "Web Service Error";
     private static final String INFO_TAG = "Web Service INFO";
+
     private JsonObjectRequest jsonObjectRequest;
     private RequestQueue requestQueue;
 
@@ -51,12 +52,37 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","SignUp");
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " firstname:" + firstName + " lastName:" + lastName + " email:" + email + " phoneNumber:" + mobile + " password:" + password);
 
                 } catch (JSONException e) {
                     Log.d(ERROR_TAG, "Cannot sign up user.Error: " + e.toString());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot sign up user.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public void editProfile(String email, String mobile, String firstName, String lastName, String password) {
+
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_EDIT_PROFILE + "firstName=" + firstName + "&lastName=" + lastName + "&emailId=" + email + "&phoneNumber=" + mobile + "&password=" + password;
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    response.put("Type","SignUp");
+                    ((IWebService) context).processResponse(response);
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " firstname:" + firstName + " lastName:" + lastName + " email:" + email + " phoneNumber:" + mobile + " password:" + password);
+
+                } catch (JSONException e) {
+                    Log.d(ERROR_TAG, "Cannot edit up user.Error: " + e.toString());
                 }
 
             }
@@ -232,7 +258,6 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","SaveAllergyDetails");
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
                 } catch (JSONException e) {

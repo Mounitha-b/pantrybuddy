@@ -1,8 +1,13 @@
 package com.pantrybuddy.activity;
 
 import androidx.annotation.LongDef;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.pantrybuddy.R;
 import com.pantrybuddy.server.Server;
 import com.pantrybuddy.stubs.GlobalClass;
@@ -40,11 +48,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity implements IWebService{
+public class ProfileActivity extends AppCompatActivity implements IWebService , NavigationView.OnNavigationItemSelectedListener{
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private ImageView imageAddItem;
     GlobalClass globalClass;
+
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    Toolbar toolbar=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +64,15 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().setTitle("Your Pantry");
+        //getSupportActionBar().setTitle("Your Pantry");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         globalClass= (GlobalClass)getApplicationContext();
         Log.d("debug", "onCreate: Fetching details of the user");
         String emailId = globalClass.getEmail();
+        String firstName = globalClass.getFirstName();
+        String lastName = globalClass.getLastName();
         Server server = new Server(this);
         JSONObject resp = new JSONObject();
 
@@ -69,7 +85,37 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
             }
         });
 
+
+
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(ProfileActivity.this);
+        View header = navigationView.getHeaderView(0);
+        //TODO: The full name will be set when the names are stored in global
+        TextView nametext = (TextView) header.findViewById(R.id.userFullName);
+        nametext.setText((firstName+" "+lastName));
+
+
+        TextView emailtext = (TextView) header.findViewById(R.id.userEmail);
+        emailtext.setText(emailId);
+
     }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,6 +130,32 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
                                                   }
                                               });
 
+        return true;
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        //here is the main place where we need to work on.
+        int id=item.getItemId();
+        switch (id){
+
+            case R.id.nav_edit_profile:
+                Intent h= new Intent(ProfileActivity.this,EditProfileActivity.class);
+                startActivity(h);
+                break;
+            case R.id.nav_allergy:
+                Intent i= new Intent(ProfileActivity.this,AllergyDetailsActivity.class);
+                startActivity(i);
+                break;
+        }
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -126,10 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements IWebService{
                     boolean includeEdge = true;
                     mRecyclerView.addItemDecoration(new SpacesItemDecorator(1, 50, includeEdge));
 
-
                 }
-
-
 
             }
         }

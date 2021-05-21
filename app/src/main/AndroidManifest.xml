@@ -22,8 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PantryBuddy"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.StockPreferenceActivity"></activity>
-        <activity android:name=".activity.PopUpActivity" android:theme="@style/Theme.PantryBuddy.PopUp"></activity>
+        <activity android:name=".activity.EditProfileActivity"></activity>
+        <activity android:name=".activity.StockPreferenceActivity" />
+        <activity
+            android:name=".activity.PopUpActivity"
+            android:theme="@style/Theme.PantryBuddy.PopUp" />
         <activity android:name=".activity.AllergyDetailsActivity" />
         <activity android:name=".activity.FoodPreferencesActivity" />
 
@@ -33,7 +36,9 @@
 
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.CongratulationsActivity" />
-        <activity android:name=".activity.ProfileActivity" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:theme="@style/Theme.PantryBuddy.NoActionBar" />
         <activity android:name=".activity.RegistrationActivity" />
         <activity android:name=".activity.AddItemActivity" />
         <activity

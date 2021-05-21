@@ -81,7 +81,7 @@ public class CongratulationsActivity extends AppCompatActivity implements IWebSe
                         Toast.makeText(CongratulationsActivity.this, message, Toast.LENGTH_SHORT).show();
                     }else if (type.equalsIgnoreCase("Verify")){
                         Toast.makeText(CongratulationsActivity.this, message, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CongratulationsActivity.this, ProfileActivity.class));
+                        startActivity(new Intent(CongratulationsActivity.this, AllergyDetailsActivity.class));
                     }else{
                         Toast.makeText(CongratulationsActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
