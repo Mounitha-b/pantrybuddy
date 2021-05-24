@@ -45,6 +45,9 @@ public class ProductsAdaptor extends RecyclerView.Adapter<ProductsAdaptor.Produc
         List<Product> selectedProducts= new ArrayList<>();
         for(Product product : products){
             if(product.isSelected){
+                if(product.name == "Cow's milk"){
+                    product.name = "Cow milk";
+                }
                 selectedProducts.add(product);
             }
         }

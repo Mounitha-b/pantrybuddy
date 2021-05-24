@@ -8,8 +8,9 @@ public class UserProduct {
     private String image;
     private String ingredients;
     private String servingSize;
+    private boolean isAllergic;
 
-    public UserProduct(String productName, String manufacturer, String expiryDate, int count, String image, String ingredients, String servingSize ){
+    public UserProduct(String productName, String manufacturer, String expiryDate, int count, String image, String ingredients, String servingSize, boolean isAllergic ){
         this.productName = productName;
         this.manufacturer = manufacturer;
         this.expiryDate = expiryDate;
@@ -17,6 +18,7 @@ public class UserProduct {
         this.image = image;
         this.ingredients = ingredients;
         this.servingSize = servingSize;
+        this.isAllergic = isAllergic;
     }
 
     public int getCount() {
@@ -40,4 +42,8 @@ public class UserProduct {
     public String getIngredients(){return ingredients;}
 
     public String getServingSize(){return servingSize;}
+
+    public boolean isAllergic(){
+        return isAllergic;
+    }
 }

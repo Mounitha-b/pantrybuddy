@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 public class GlobalClass extends Application {
     private static Context context;
@@ -16,6 +19,8 @@ public class GlobalClass extends Application {
     private String email;
     private String FirstName;
     private String LastName;
+    private String allergy;
+    private boolean active;
 
     public String getPasssword() {
         return passsword;
@@ -31,6 +36,19 @@ public class GlobalClass extends Application {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public void setAllergy (String allergy){
+        this.allergy = allergy;
+    }
+
+    public String getAllergy(){
+        return allergy;
+    }
+
+    public Boolean isActive(){return active;}
+    public void setActive(boolean active){
+        this.active = active;
     }
 
     private String passsword;

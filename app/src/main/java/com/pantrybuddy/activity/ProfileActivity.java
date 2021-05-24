@@ -64,15 +64,14 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile);
-        //getSupportActionBar().setTitle("Your Pantry");
+       // getSupportActionBar().setTitle("Your Pantry");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        globalClass= (GlobalClass)getApplicationContext();
         Log.d("debug", "onCreate: Fetching details of the user");
-        String emailId = globalClass.getEmail();
-        String firstName = globalClass.getFirstName();
-        String lastName = globalClass.getLastName();
+        String emailId = MainActivity.globalVariables.getEmail();
+        String firstName = MainActivity.globalVariables.getFirstName();
+        String lastName = MainActivity.globalVariables.getLastName();
         Server server = new Server(this);
         JSONObject resp = new JSONObject();
 
@@ -187,7 +186,11 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
 
                     for(int i=0; i< product_details.length(); i++) {
                         JSONObject object =  product_details.getJSONObject(i);
-                        exampleList.add(new UserProduct(object.getString("product_name"),object.getString("manufacturer"),object.getString("expiry_date"), object.getInt("count"), object.getString("image"), object.getString("ingredients"), object.getString("serving_size")));
+                        boolean isAllergic = false;
+                        if(object.has("is_allergic")){
+                            isAllergic = true;
+                        }
+                        exampleList.add(new UserProduct(object.getString("product_name"),object.getString("manufacturer"),object.getString("expiry_date"), object.getInt("count"), object.getString("image"), object.getString("ingredients"), object.getString("serving_size"), isAllergic));
                     }
                     mRecyclerView = findViewById(R.id.recycleView);
                     StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);

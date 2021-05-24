@@ -23,7 +23,6 @@ import org.json.JSONObject;
 public class CongratulationsActivity extends AppCompatActivity implements IWebService {
     Button eVerifyOtp;
     private EditText eOtp;
-    GlobalClass globalClass;
     String genOtp;
 
 
@@ -31,8 +30,7 @@ public class CongratulationsActivity extends AppCompatActivity implements IWebSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_congratulations);
-        globalClass= (GlobalClass)getApplicationContext();
-        String emailId = globalClass.getEmail();
+        String emailId = MainActivity.globalVariables.getEmail();
         eVerifyOtp=findViewById(R.id.btnVerifyOtp);
         eOtp = findViewById(R.id.etOtp);
         getSupportActionBar().hide();

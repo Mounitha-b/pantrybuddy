@@ -10,25 +10,32 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.pantrybuddy.activity.IWebService;
+import com.pantrybuddy.activity.MainActivity;
+import com.pantrybuddy.stubs.GlobalClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
+
+import static android.content.ContentValues.TAG;
+
 public class Server {
 
-   // private static final String SERVER_NAME = "128.195.27.49";
-    private static final String SERVER_NAME = "128.195.27.49";
+    // private static final String SERVER_NAME = "128.195.27.49";
+    private static final String SERVER_NAME = "192.168.1.151";
     private static final String SERVER_PORT = "8080";
     public static final String URL_SIGNUP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/create?";
     public static final String URL_LOGIN = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/login?";
-    public static final String URL_GEN_OTP ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
-    public static final String URL_VER_OTP ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
-    public static final String URL_RES_PWD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/password?";
-    public static final String URL_ALLERG ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/allergy?";
-    private static final String URL_EDIT_PROFILE = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/editProfile?";
-    public static final String URL_SAVE_PROD ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
-    public static final String URL_SAVE_PROD_MANUAL ="http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/productManual?";
-    public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";	
+    public static final String URL_GEN_OTP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
+    public static final String URL_VER_OTP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/otp?";
+    public static final String URL_RES_PWD = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/password?";
+    public static final String URL_ALLERG = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/allergy?";
+    private static final String URL_EDIT_PROFILE = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/edit?";
+    public static final String URL_SAVE_PROD = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
+    public static final String URL_SAVE_PROD_MANUAL = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/productManual?";
+    public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
+    public static final String URL_FETCH_USER_DETAILS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/fetch?";
 
 
     private static final String ERROR_TAG = "Web Service Error";
@@ -77,7 +84,7 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","SignUp");
+                    response.put("Type", "SignUp");
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " firstname:" + firstName + " lastName:" + lastName + " email:" + email + " phoneNumber:" + mobile + " password:" + password);
 
@@ -124,9 +131,9 @@ public class Server {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","Generate");
+                    response.put("Type", "Generate");
                     ((IWebService) context).processResponse(response);
-                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP );
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP);
                 } catch (JSONException e) {
                     Log.d(ERROR_TAG, "Cannot gen OTP.Error: " + e.toString());
                 }
@@ -141,16 +148,16 @@ public class Server {
 
     }
 
-    public void verifyOtp(String otp,String emailFP) {
+    public void verifyOtp(String otp, String emailFP) {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_VER_OTP + "&otp=" + otp+"&emailId="+emailFP;
+        String FinalURL = URL_VER_OTP + "&otp=" + otp + "&emailId=" + emailFP;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","Verify");
+                    response.put("Type", "Verify");
                     ((IWebService) context).processResponse(response);
-                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP );
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP);
                 } catch (JSONException e) {
                     Log.d(ERROR_TAG, "Cannot verify OTP.Error: " + e.toString());
                 }
@@ -166,14 +173,14 @@ public class Server {
 
     public void resetPassword(String emailFP, String newPwd) {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_RES_PWD + "&emailId=" + emailFP+"&password="+newPwd;
+        String FinalURL = URL_RES_PWD + "&emailId=" + emailFP + "&password=" + newPwd;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("Type","Reset");
+                    response.put("Type", "Reset");
                     ((IWebService) context).processResponse(response);
-                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP );
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailFP);
                 } catch (JSONException e) {
                     Log.d(ERROR_TAG, "Cannot reset password.Error: " + e.toString());
                 }
@@ -188,16 +195,16 @@ public class Server {
     }
 
 
-    public void saveProduct(String emailId, String productId,String expDate) {
+    public void saveProduct(String emailId, String productId, String expDate) {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_SAVE_PROD + "&emailId=" + emailId+"&productId="+productId +"&expiryDate="+expDate;
-        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+        String FinalURL = URL_SAVE_PROD + "&emailId=" + emailId + "&productId=" + productId + "&expiryDate=" + expDate;
+        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 // ((IWebService) context).processResponse(response);
-                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -208,16 +215,16 @@ public class Server {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void saveProductManual(String emailId, String itemName,String expDate) {
+    public void saveProductManual(String emailId, String itemName, String expDate) {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_SAVE_PROD_MANUAL + "&emailId=" + emailId+"&itemName="+itemName +"&expiryDate="+expDate;
-        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+        String FinalURL = URL_SAVE_PROD_MANUAL + "&emailId=" + emailId + "&itemName=" + itemName + "&expiryDate=" + expDate;
+        Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 // ((IWebService) context).processResponse(response);
-                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+                Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -228,38 +235,63 @@ public class Server {
         requestQueue.add(jsonObjectRequest);
     }
 
- public void fetchUserProducts(String email) {	
-        requestQueue = Volley.newRequestQueue(context);	
-        String FinalURL = URL_FETCH_USER_PRODUCTS + "emailId=" + email;	
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {	
-            @Override	
-            public void onResponse(JSONObject response) {	
-                try {	
-                    ((IWebService) context).processResponse(response);	
-                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + email );	
-                } catch (JSONException e) {	
-                    Log.d(ERROR_TAG, "Cannot fetch user products.Error: " + e.toString());	
-                }	
-            }	
-        }, new Response.ErrorListener() {	
-            @Override	
-            public void onErrorResponse(VolleyError error) {	
-                Log.d(ERROR_TAG, "Cannot sign up user.Error: " + error.toString());	
-            }	
-        });	
-        requestQueue.add(jsonObjectRequest);	
+    public void fetchUserProducts(String email) {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_FETCH_USER_PRODUCTS + "emailId=" + email;
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ((IWebService) context).processResponse(response);
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + email);
+                } catch (JSONException e) {
+                    Log.d(ERROR_TAG, "Cannot fetch user products.Error: " + e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot sign up user.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 
 
-    public void saveAllergyDetails(String emailId, StringBuilder productNames) {
+    public void saveAllergyDetails(String emailId, StringBuilder productNames) throws Exception {
         requestQueue = Volley.newRequestQueue(context);
-        String FinalURL = URL_ALLERG + "&emailId=" + emailId+"&commaSeparatedAllergy="+productNames;
+        String query = URLEncoder.encode(productNames.toString(), "utf-8");
+        String FinalURL = URL_ALLERG + "&emailId=" + emailId + "&commaSeparatedAllergy=" + query;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     ((IWebService) context).processResponse(response);
-                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId );
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
+                } catch (JSONException e) {
+                    Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
+
+    public void fetchUserDetails() {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_FETCH_USER_DETAILS + "&emailId=" + MainActivity.globalVariables.getEmail();
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ((IWebService) context).processResponse(response);
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + MainActivity.globalVariables.getEmail());
                 } catch (JSONException e) {
                     Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + e.toString());
                 }

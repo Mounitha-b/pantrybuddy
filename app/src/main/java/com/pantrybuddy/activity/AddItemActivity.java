@@ -69,7 +69,6 @@ public class AddItemActivity extends AppCompatActivity {
 
     RequestQueue queue;
     private JsonObjectRequest jsonObjectRequest;
-    GlobalClass globalClass;
     Server server;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,6 @@ public class AddItemActivity extends AppCompatActivity {
         eDate=findViewById(R.id.etDate);
         bDone=findViewById(R.id.btnDone);
         surfaceView=findViewById(R.id.svBarcodeScan);
-        globalClass= (GlobalClass)getApplicationContext();
         queue = Volley.newRequestQueue(this);
 
 
@@ -120,7 +118,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String productId=barcodeData;
-                String emailId = globalClass.getEmail();
+                String emailId = MainActivity.globalVariables.getEmail();
                 Log.d("INFO", "Email of user :" + emailId);
                 //Calling the product API to store the product details.
                 server = new Server(getApplicationContext());

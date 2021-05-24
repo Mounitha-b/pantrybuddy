@@ -1,8 +1,5 @@
 package com.pantrybuddy.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +30,7 @@ import static android.content.ContentValues.TAG;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private ArrayList<UserProduct> mExampleList;
         private Context context;
-        private static AnimatorSet leftIn, leftOut, rightIn, rightOut;
+    private final int ORANGE = 0xFFFF743E;
 
 
 
@@ -40,6 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
+        public ImageView warning;
 
         public TextView mTextView8;
         public TextView mTextView9;
@@ -63,9 +62,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         public ConstraintLayout layout_back;
         private PopupWindow popupWindow;
 
-
-
-
         public ProductViewHolder(Context context, View itemView) {
 
                 super(itemView);
@@ -85,6 +81,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 mTextView11 = itemView.findViewById(R.id.textView11);
                 mTextView12= itemView.findViewById(R.id.textView12);
                 mTextView13= itemView.findViewById(R.id.textView13);
+                warning = itemView.findViewById(R.id.imageView3);
 
                 card = itemView.findViewById(R.id.cardview);
                 view = itemView.findViewById(R.id.view5);
@@ -126,11 +123,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.mTextView1.setText(String.valueOf(currentItem.getProductName()));
             holder.mTextView2.setText(String.valueOf(currentItem.getExpiryDate()));
             holder.mTextView3.setText("Count : " + String.valueOf(currentItem.getCount()));
+            if(currentItem.isAllergic()) {
+                holder.warning.setVisibility(View.VISIBLE);
+                holder.warning.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Toast.makeText(v.getContext(), "This product has contents that you may be allergic to. Please check the ingredients before consuming", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-            GlobalClass c  = new GlobalClass();
             String name = String.valueOf(currentItem.getImage());
-
-            holder.view.setBackground(c.getDrawable(name));
+            holder.view.setBackground(MainActivity.globalVariables.getDrawable(name));
             Date date = getDate(String.valueOf(currentItem.getExpiryDate()));
             String currentDateString = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             Log.d("INFO", "onBindViewHolder: currentdate" + currentDateString);
@@ -156,7 +159,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                        holder.expiredLabel.setTextColor(Color.parseColor("red"));
                        holder.expiredLabel.setText("Expired");
                    }else if(difference <= 3){
-                       holder.expiredLabel.setTextColor(Color.parseColor("orange"));
+                       holder.expiredLabel.setTextColor(ORANGE);
                        holder.expiredLabel.setText("About to Expire");
                    }
                }

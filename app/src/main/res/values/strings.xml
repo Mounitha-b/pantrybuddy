@@ -84,6 +84,7 @@
     <string name="foodPref">Food Preferences</string>
     <string name="favfood">What are your favorite foods?</string>
     <string name="allergfood">What foods are you allergic to or dislike?</string>
+    <string name="save_preference">Save Preferences</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

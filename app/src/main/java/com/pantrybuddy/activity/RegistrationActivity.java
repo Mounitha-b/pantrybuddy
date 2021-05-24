@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,12 +83,13 @@ public class RegistrationActivity extends AppCompatActivity  implements IWebServ
                     sharedPrefEditor.putString("LastSavedPassword", regPassword);
                     /* Commits the changes and adds to the file */
                     sharedPrefEditor.apply();
-                    GlobalClass globalClass=(GlobalClass)getApplicationContext();
-                    globalClass.setEmail(regEmail);
-                    globalClass.setFirstName(regFirstName);
-                    globalClass.setLastName(regLastName);
-                    globalClass.setPasssword(regPassword);
-                    globalClass.setNumber(regMobile);
+
+                    MainActivity.globalVariables.setEmail(regEmail);
+                    Log.d("TAG", "debug regi "+MainActivity.globalVariables.getEmail());
+                    MainActivity.globalVariables.setFirstName(regFirstName);
+                    MainActivity.globalVariables.setLastName(regLastName);
+                    MainActivity.globalVariables.setPasssword(regPassword);
+                    MainActivity.globalVariables.setNumber(regMobile);
                     callSignUpApi(regEmail, regMobile, regFirstName, regLastName, regPassword);
                 }
 

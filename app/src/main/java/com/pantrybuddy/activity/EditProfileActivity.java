@@ -32,7 +32,6 @@ public class EditProfileActivity extends AppCompatActivity implements IWebServic
     private EditText eRegPassword;
     private Button eNext;
     private TextView ePwdMsg;
-    GlobalClass globalClass;
 
     public Credentials cred;
     SharedPreferences sharedPreferences;
@@ -51,19 +50,19 @@ public class EditProfileActivity extends AppCompatActivity implements IWebServic
         eEmail = findViewById(R.id.etMail);
         ePwdMsg = findViewById(R.id.etPwdMsg);
 
-        globalClass= (GlobalClass)getApplicationContext();
         Log.d("debug", "onCreate: Fetching details of the user");
-        String emailId = globalClass.getEmail();
+        String emailId = MainActivity.globalVariables.getEmail();
         eEmail.setText(emailId);
         eEmail.setFocusable(false);
-        eEmail.setEnabled(false);
         eEmail.setCursorVisible(false);
         eEmail.setInputType(InputType.TYPE_NULL);
 
-        eLastName.setText(globalClass.getLastName());
-        eFirstName.setText(globalClass.getFirstName());
-        eMobile.setText(globalClass.getNumber());
-        eRegPassword.setText(globalClass.getPasssword());
+        eLastName.setText(MainActivity.globalVariables.getLastName());
+        eFirstName.setText(MainActivity.globalVariables.getFirstName());
+        eMobile.setText(MainActivity.globalVariables.getNumber());
+        eMobile.setFocusable(false);
+        eMobile.setCursorVisible(false);
+        eMobile.setInputType(InputType.TYPE_NULL);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
         sharedPrefEditor = sharedPreferences.edit();
@@ -94,23 +93,17 @@ public class EditProfileActivity extends AppCompatActivity implements IWebServic
                 }else {
                     /* Storing in shared Pref */
                     sharedPrefEditor.putString(regLastName, regPassword);
-
                     sharedPrefEditor.putString("LastSavedEmail", regEmail);
                     sharedPrefEditor.putString("LastSavedPassword", regPassword);
                     /* Commits the changes and adds to the file */
                     sharedPrefEditor.apply();
-                    GlobalClass globalClass=(GlobalClass)getApplicationContext();
-                    globalClass.setEmail(regEmail);
-                    globalClass.setFirstName(regFirstName);
-                    globalClass.setLastName(regLastName);
-                    globalClass.setPasssword(regPassword);
-                    globalClass.setNumber(regMobile);
-
-
+                    MainActivity.globalVariables.setEmail(regEmail);
+                    MainActivity.globalVariables.setFirstName(regFirstName);
+                    MainActivity.globalVariables.setLastName(regLastName);
+                    MainActivity.globalVariables.setPasssword(regPassword);
+                    MainActivity.globalVariables.setNumber(regMobile);
                     callEditProfile(regEmail, regMobile, regFirstName, regLastName, regPassword);
-
                 }
-
             }
         });
     }
@@ -128,7 +121,7 @@ public class EditProfileActivity extends AppCompatActivity implements IWebServic
             if (code != null && message != null) {
 
                     if (code.equalsIgnoreCase("201")) {
-                        String regEmail = globalClass.getEmail();
+                        String regEmail = MainActivity.globalVariables.getEmail();
                         startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
                     } else {
                         Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();

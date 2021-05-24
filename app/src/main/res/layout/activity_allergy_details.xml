@@ -58,7 +58,7 @@
         android:layout_height="43dp"
         android:background="@color/colorAccent"
         android:textColor="@color/colorTextIcons"
-        android:text="@string/next"
+        android:text="@string/save_preference"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
