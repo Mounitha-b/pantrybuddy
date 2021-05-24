@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pantrybuddy.R;
-import com.pantrybuddy.Schedules.JobSchedulerService;
 import com.pantrybuddy.server.Server;
 import com.pantrybuddy.stubs.GlobalClass;
 
@@ -31,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.content.ContentValues.TAG;
-import static com.pantrybuddy.Schedules.JobSchedulerService.ONE_DAY_INTERVAL;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
