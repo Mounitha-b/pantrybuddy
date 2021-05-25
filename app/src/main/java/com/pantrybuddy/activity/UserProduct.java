@@ -11,7 +11,7 @@ public class UserProduct {
     private boolean isAllergic;
 
     public UserProduct(String productName, String manufacturer, String expiryDate, int count, String image, String ingredients, String servingSize, boolean isAllergic ){
-        this.productName = productName;
+        this.productName = productName.trim();
         this.manufacturer = manufacturer;
         this.expiryDate = expiryDate;
         this.count = count;

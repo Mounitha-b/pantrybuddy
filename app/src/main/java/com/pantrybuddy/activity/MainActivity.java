@@ -134,9 +134,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     MainActivity.globalVariables.setLastName(responseObj.getString("last_name"));
                     MainActivity.globalVariables.setEmail(responseObj.getString("emailId"));
                     MainActivity.globalVariables.setNumber(responseObj.getString("phoneNumber"));
-                    Log.d(TAG, "fetchUserDetails: " + responseObj.getString("allergy"));
-                    MainActivity.globalVariables.setAllergy(responseObj.getString("allergy"));
-                    Log.d(TAG, "fetchUserDetails: " + MainActivity.globalVariables.getAllergy());
+                    if(responseObj.has("allergy")) {
+                        Log.d(TAG, "fetchUserDetails: " + responseObj.getString("allergy"));
+                        MainActivity.globalVariables.setAllergy(responseObj.getString("allergy"));
+                        Log.d(TAG, "fetchUserDetails: " + MainActivity.globalVariables.getAllergy());
+                    }
 
                     MainActivity.globalVariables.setActive(responseObj.getString("isActive").equalsIgnoreCase("1"));
 

@@ -238,12 +238,11 @@ public class AddItemActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     Log.d("INFO", "Webservice called :" + url );
-                    String title=response.get("foodDescription").toString();
-                    if(title!=null && !title.isEmpty())
-                        barcodeText.setText(title);
-                    else{
-                        barcodeText.setText("");
-                    }
+                    JSONObject food_details = response.getJSONArray("items").getJSONObject(0);
+                    String description = food_details.getString("foodDescription");
+                    if(description!=null && !description.isEmpty())
+                        barcodeText.setText(description);
+
                 } catch (JSONException e) {
                     Log.d("ERROR", "ERROR in upc webservice " + e.toString());
                 }
