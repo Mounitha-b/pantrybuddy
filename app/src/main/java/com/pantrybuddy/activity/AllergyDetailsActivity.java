@@ -36,8 +36,12 @@ public class AllergyDetailsActivity extends AppCompatActivity implements Product
         RecyclerView productRecyclerView= findViewById(R.id.productsRecyclerView2);
         next= findViewById(R.id.btnAllergNext);
         String allergy = MainActivity.globalVariables.getAllergy();
-        String[] allergyArr = allergy.split(",");
-        List<String> allergyList = Arrays.asList(allergyArr);
+        String[] allergyArr = new String[0];
+        if(allergy!=null &&allergy!="") {
+            allergyArr= allergy.split(",");
+        }
+            List<String> allergyList = Arrays.asList(allergyArr);
+
         List<Product> products= new ArrayList<>();
 
 

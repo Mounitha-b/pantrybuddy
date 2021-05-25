@@ -109,6 +109,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
                 if (code.equalsIgnoreCase("200")) {
                     if(type.equalsIgnoreCase("Generate")) {
                         genOtp = responseObj.get("otp").toString();
+                        Log.d("INFO",genOtp);
                         String phoneNum = responseObj.get("phone_number").toString();
                         sendOtpMessage(phoneNum, genOtp);
                         Toast.makeText(ForgotPasswordActivity.this, message, Toast.LENGTH_SHORT).show();

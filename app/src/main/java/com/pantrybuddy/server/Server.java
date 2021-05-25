@@ -22,8 +22,8 @@ import static android.content.ContentValues.TAG;
 
 public class Server {
 
-    // private static final String SERVER_NAME = "128.195.27.49";
-    private static final String SERVER_NAME = "192.168.1.151";
+     private static final String SERVER_NAME = "128.195.27.49";
+    //private static final String SERVER_NAME = "192.168.1.151";
     private static final String SERVER_PORT = "8080";
     public static final String URL_SIGNUP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/create?";
     public static final String URL_LOGIN = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/login?";

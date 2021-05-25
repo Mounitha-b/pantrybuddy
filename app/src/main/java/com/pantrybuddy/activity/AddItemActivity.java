@@ -82,6 +82,7 @@ public class AddItemActivity extends AppCompatActivity {
         bDone=findViewById(R.id.btnDone);
         surfaceView=findViewById(R.id.svBarcodeScan);
         queue = Volley.newRequestQueue(this);
+        barcodeText = findViewById(R.id.mltItemName);
 
 
 //        bScanDate.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +140,6 @@ public class AddItemActivity extends AppCompatActivity {
 
                 surfaceView.setVisibility(View.VISIBLE);
                 toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                barcodeText = findViewById(R.id.mltItemName);
                 initialiseDetectorsAndSources(queue);
             }
         });
