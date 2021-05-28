@@ -13,6 +13,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.util.Log;
 import android.view.View;
@@ -28,6 +33,8 @@ import com.pantrybuddy.stubs.GlobalClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
 
 import static android.content.ContentValues.TAG;
 
@@ -49,13 +56,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private String savedEmail;
     private String savedPwd;
     public static GlobalClass globalVariables;
+    private WorkManager mWorkManager;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-      //  JobSchedulerService.schedule(this, ONE_DAY_INTERVAL);
+        mWorkManager = WorkManager.getInstance(this);
 
+        PeriodicWorkRequest callDataRequest = new PeriodicWorkRequest.Builder(com.pantrybuddy.Schedules.AppNotifier.class,
+               16, TimeUnit.MINUTES, 16, TimeUnit.MINUTES)
+                .addTag("TAG")
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.KEEP , callDataRequest);
         eEmail = findViewById(R.id.etEmail);
         ePassword = findViewById(R.id.etPassword);
         eattmptsrem = findViewById(R.id.tvattmptsrem);
@@ -147,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         sharedPrefEditor.putString("LastSavedUserName", savedEmail);
                         sharedPrefEditor.putString("LastSavedPassword", savedPwd);
                         sharedPrefEditor.apply();
+                        globalVariables.setLoggedIn(true);
                         if(!MainActivity.globalVariables.isActive()){
                             Toast.makeText(MainActivity.this, "User is not verified yet, Please verify phone number using the 'forget password' option", Toast.LENGTH_LONG).show();
                             return;

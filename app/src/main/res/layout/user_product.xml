@@ -18,7 +18,6 @@
         android:backgroundTint="#CCFFFFFF"
         android:backgroundTintMode="src_over">
 
-
         <View
             android:id="@+id/view5"
             android:layout_width="match_parent"

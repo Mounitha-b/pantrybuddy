@@ -36,7 +36,7 @@ public class Server {
     public static final String URL_SAVE_PROD_MANUAL = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/productManual?";
     public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
     public static final String URL_FETCH_USER_DETAILS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/fetch?";
-
+    public static final String URL_FETCH_EXPIRED_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/expired/products/fetch?";
 
     private static final String ERROR_TAG = "Web Service Error";
     private static final String INFO_TAG = "Web Service INFO";
@@ -300,6 +300,29 @@ public class Server {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
+    public void fetchExpiredProducts() {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_FETCH_EXPIRED_PRODUCTS + "&emailId=" + MainActivity.globalVariables.getEmail();
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ((IWebService) context).processResponse(response);
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + MainActivity.globalVariables.getEmail());
+                } catch (JSONException e) {
+                    Log.d(ERROR_TAG, "Cannot fetch expired products.Error: " + e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot fetch expired products.Error: " + error.toString());
             }
         });
         requestQueue.add(jsonObjectRequest);
