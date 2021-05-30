@@ -61,26 +61,38 @@ public class MainActivity extends AppCompatActivity implements IWebService {
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mWorkManager = WorkManager.getInstance(this);
+         globalVariables = (GlobalClass) getApplicationContext();
+
+         mWorkManager = WorkManager.getInstance(this);
 
         PeriodicWorkRequest callDataRequest = new PeriodicWorkRequest.Builder(com.pantrybuddy.Schedules.AppNotifier.class,
                16, TimeUnit.MINUTES, 16, TimeUnit.MINUTES)
                 .addTag("TAG")
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.KEEP , callDataRequest);
-        eEmail = findViewById(R.id.etEmail);
+         sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
+         sharedPrefEditor = sharedPreferences.edit();
+
+         if (sharedPreferences != null) {
+             if (sharedPreferences.getBoolean("RememberMeCheckBox", false)) {
+                 if (sharedPreferences.getBoolean("userLoggedIn", false)) {
+                     MainActivity.globalVariables.setEmail(sharedPreferences.getString("LastSavedEmail", ""));
+                     Server server = new Server(this);
+                     server.fetchUserDetails();
+                     Intent profileIntent = new Intent(this, ProfileActivity.class);
+                     startActivity(profileIntent);
+                     return;
+                 }
+             }
+         setContentView(R.layout.activity_main);
+         eEmail = findViewById(R.id.etEmail);
         ePassword = findViewById(R.id.etPassword);
         eattmptsrem = findViewById(R.id.tvattmptsrem);
         eloginBut = findViewById(R.id.elogin);
         eSignUp = findViewById(R.id.btnSignUp);
         eRemMe = findViewById(R.id.cbRememberMe);
         eForgotPwd=findViewById(R.id.tvForgotPwd);
-        globalVariables = (GlobalClass) getApplicationContext();
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
-        sharedPrefEditor = sharedPreferences.edit();
-        if (sharedPreferences != null) {
 
             savedEmail = sharedPreferences.getString("LastSavedEmail", "");
             savedPwd = sharedPreferences.getString("LastSavedPassword", "");
@@ -132,9 +144,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
     private void validate(String ename, String pword) {
+         MainActivity.globalVariables.setPasssword(pword);
         Server server = new Server(this);
         server.fetchUserDetails();
-        server.loginEmailPwd(ename, pword);
     }
 
     @Override
@@ -154,18 +166,26 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     }
 
                     MainActivity.globalVariables.setActive(responseObj.getString("isActive").equalsIgnoreCase("1"));
-
+                    boolean loggedIn = sharedPreferences.getBoolean("userLoggedIn", false);
+                    if(!loggedIn) {
+                        Server server = new Server(this);
+                        server.loginEmailPwd(MainActivity.globalVariables.getEmail(), MainActivity.globalVariables.getPasssword());
+                    }
                 }
-                if (code.equalsIgnoreCase("200")) {
+               if (code.equalsIgnoreCase("200")) {
                         sharedPrefEditor.putString("LastSavedUserName", savedEmail);
                         sharedPrefEditor.putString("LastSavedPassword", savedPwd);
                         sharedPrefEditor.apply();
                         globalVariables.setLoggedIn(true);
+
+
+
                         if(!MainActivity.globalVariables.isActive()){
                             Toast.makeText(MainActivity.this, "User is not verified yet, Please verify phone number using the 'forget password' option", Toast.LENGTH_LONG).show();
                             return;
                         }
-
+                       sharedPrefEditor.putBoolean("userLoggedIn", true);
+                       sharedPrefEditor.apply();
                         Log.d("de", "processResponse:  allergy " +  MainActivity.globalVariables.getAllergy());
                         if(MainActivity.globalVariables.getAllergy() != null) {
                             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
@@ -177,11 +197,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     } else if(code.equalsIgnoreCase("401") || code.equalsIgnoreCase("116")) {
                         counter--;
                         eattmptsrem.setText(getString(R.string.attmps_rem_1) + counter);
-                        if (counter == 0) {
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                        sharedPrefEditor.putBoolean("userLoggedIn", false);
+                        sharedPrefEditor.apply();
+                   if (counter == 0) {
                             eloginBut.setEnabled(false);
                         }
                     }
-                    Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -22,7 +22,7 @@ import static android.content.ContentValues.TAG;
 
 public class Server {
 
-     private static final String SERVER_NAME = "128.195.27.49";
+    private static final String SERVER_NAME = "128.195.27.49";
     //private static final String SERVER_NAME = "192.168.1.151";
     private static final String SERVER_PORT = "8080";
     public static final String URL_SIGNUP = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/create?";
@@ -293,13 +293,13 @@ public class Server {
                     ((IWebService) context).processResponse(response);
                     Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + MainActivity.globalVariables.getEmail());
                 } catch (JSONException e) {
-                    Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + e.toString());
+                    Log.d(ERROR_TAG, "Cannot fetch user details. Error: " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(ERROR_TAG, "Cannot save allergy details.Error: " + error.toString());
+                Log.d(ERROR_TAG, "Cannot fetch user details. Error: " + error.toString());
             }
         });
         requestQueue.add(jsonObjectRequest);

@@ -82,6 +82,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
     }
 
     private void resetPassword(String emailFP, String newPwd) {
+        MainActivity.globalVariables.setEmail(emailFP);
         Server server = new Server(this);
         JSONObject resp = new JSONObject();
         server.resetPassword(emailFP,newPwd);
@@ -119,6 +120,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements IWebSer
                         ebtnSubmitFP.setVisibility(View.VISIBLE);
                     }else if(type.equalsIgnoreCase("Reset")) {
                         Toast.makeText(ForgotPasswordActivity.this, message, Toast.LENGTH_SHORT).show();
+                        MainActivity.globalVariables.setLoggedIn(true);
                         startActivity(new Intent(ForgotPasswordActivity.this, ProfileActivity.class));
                     }else{
                         Toast.makeText(ForgotPasswordActivity.this, message, Toast.LENGTH_SHORT).show();

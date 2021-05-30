@@ -88,7 +88,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        if(Ingredients.equalsIgnoreCase("null") || Ingredients.trim().isEmpty()){
+                            if(Manufacturer.equalsIgnoreCase("null")  || Manufacturer.trim().isEmpty()){
+                                if(servingSize.equalsIgnoreCase("null") || servingSize.trim().isEmpty()){
+                                    return;
+                                }
+                            }
+                        }
                         Intent intent = new Intent(context, PopUpActivity.class);
                         intent.putExtra("Manufacturer", Manufacturer);
                         intent.putExtra("Ingredients", Ingredients);

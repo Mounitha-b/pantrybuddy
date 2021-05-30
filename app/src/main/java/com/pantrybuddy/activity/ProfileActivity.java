@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -110,8 +111,6 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -148,6 +147,13 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
             case R.id.nav_allergy:
                 Intent i= new Intent(ProfileActivity.this,AllergyDetailsActivity.class);
                 startActivity(i);
+                break;
+            case R.id.nav_logout:
+                Intent logout_intent= new Intent(ProfileActivity.this,MainActivity.class);
+                startActivity(logout_intent);
+                SharedPreferences.Editor sharedPrefEditor = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE).edit();
+                sharedPrefEditor.putBoolean("userLoggedIn", false);
+                sharedPrefEditor.apply();
                 break;
         }
 

@@ -22,7 +22,7 @@ public class AppNotifier extends Worker implements IWebService {
     @Override
     public Result doWork() {
         Server server = new Server(getApplicationContext());
-        server.fetchExpiredProducts();
+       // server.fetchExpiredProducts();
         return Result.success();
     }
 

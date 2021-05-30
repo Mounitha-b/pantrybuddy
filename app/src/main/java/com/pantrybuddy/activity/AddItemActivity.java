@@ -118,6 +118,14 @@ public class AddItemActivity extends AppCompatActivity {
         bDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(eItemName.getText() == null || eItemName.getText().toString().trim().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "The product Name cannot be empty.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eDate.getText() == null || eDate.getText().toString().trim().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please select the expiry date of the product", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String productId=barcodeData;
                 String emailId = MainActivity.globalVariables.getEmail();
                 Log.d("INFO", "Email of user :" + emailId);

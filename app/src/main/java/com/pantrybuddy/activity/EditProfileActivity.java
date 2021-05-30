@@ -123,6 +123,7 @@ public class EditProfileActivity extends AppCompatActivity implements IWebServic
                     if (code.equalsIgnoreCase("201")) {
                         String regEmail = MainActivity.globalVariables.getEmail();
                         startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
+                        Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
