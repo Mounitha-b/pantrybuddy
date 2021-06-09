@@ -74,8 +74,6 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
         String firstName = MainActivity.globalVariables.getFirstName();
         String lastName = MainActivity.globalVariables.getLastName();
         Server server = new Server(this);
-        JSONObject resp = new JSONObject();
-
         server.fetchUserProducts(emailId);
         imageAddItem=(ImageView)findViewById(R.id.imageView);
         imageAddItem.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +171,14 @@ public class ProfileActivity extends AppCompatActivity implements IWebService , 
             String message = responseObj.get("Message").toString();
 
             if (code != null && message != null) {
+
+                if (code.equalsIgnoreCase("208")) {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(this, ProfileActivity.class);
+                    startActivity(in);
+                    return;
+                }
+
                 JSONArray product_details = responseObj.getJSONArray("product_details");
                 ImageView imageView = findViewById(R.id.imageView);
                 TextView textView = findViewById(R.id.tvLoginMsg1);

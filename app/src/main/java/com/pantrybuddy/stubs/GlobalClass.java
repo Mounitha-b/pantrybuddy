@@ -16,13 +16,17 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.pantrybuddy.R;
+import com.pantrybuddy.activity.IWebService;
 import com.pantrybuddy.activity.MainActivity;
 import com.pantrybuddy.activity.ProfileActivity;
 import com.pantrybuddy.server.Server;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static android.content.ContentValues.TAG;
 
-public class GlobalClass extends Application {
+public class GlobalClass extends Application implements IWebService {
     private static Context context;
 
     public void onCreate() {
@@ -137,6 +141,18 @@ public class GlobalClass extends Application {
                 .setAutoCancel(true);
         NotificationManagerCompat notificationManager1 = NotificationManagerCompat.from(this);
         notificationManager1.notify(1, builder.build());
+    }
+
+
+    @Override
+    public void processResponse(JSONObject responseObj) throws JSONException {
+        if(responseObj !=null){
+            if(responseObj.getString("Code") != null && responseObj.getString("Code").equalsIgnoreCase("200")){
+                if(responseObj.has("count") && responseObj.getInt("count") > 0){
+                    MainActivity.globalVariables.createNotificationChannel();
+                }
+            }
+        }
     }
 
 }

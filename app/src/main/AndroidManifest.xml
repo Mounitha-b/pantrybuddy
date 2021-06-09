@@ -54,6 +54,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:enabled="true"
+            android:name=".activity.appService"
+            android:exported="false"
+            android:stopWithTask="false" />
     </application>
 
 </manifest>

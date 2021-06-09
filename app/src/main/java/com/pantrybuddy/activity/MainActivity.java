@@ -20,7 +20,9 @@ import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -57,8 +59,20 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private String savedPwd;
     public static GlobalClass globalVariables;
     private WorkManager mWorkManager;
+    private boolean prev_remember_me = false;
 
-     @Override
+    @Override
+    public void onBackPressed() {
+        if(!sharedPreferences.getBoolean("RememberMeCheckBox", false)){
+            sharedPrefEditor.putBoolean("userLoggedIn", false);
+            sharedPrefEditor.apply();
+        }
+        finish();
+
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          globalVariables = (GlobalClass) getApplicationContext();
@@ -69,10 +83,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                16, TimeUnit.MINUTES, 16, TimeUnit.MINUTES)
                 .addTag("TAG")
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.KEEP , callDataRequest);
+        mWorkManager.enqueue(callDataRequest);
+       // mWorkManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.KEEP , callDataRequest);
          sharedPreferences = getApplicationContext().getSharedPreferences("CredentialsDB", MODE_PRIVATE);
          sharedPrefEditor = sharedPreferences.edit();
-
+        prev_remember_me = sharedPreferences.getBoolean("RememberMeCheckBox", false);
          if (sharedPreferences != null) {
              if (sharedPreferences.getBoolean("RememberMeCheckBox", false)) {
                  if (sharedPreferences.getBoolean("userLoggedIn", false)) {
@@ -167,18 +182,17 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
                     MainActivity.globalVariables.setActive(responseObj.getString("isActive").equalsIgnoreCase("1"));
                     boolean loggedIn = sharedPreferences.getBoolean("userLoggedIn", false);
-                    if(!loggedIn) {
+                    if(!loggedIn || !prev_remember_me) {
                         Server server = new Server(this);
                         server.loginEmailPwd(MainActivity.globalVariables.getEmail(), MainActivity.globalVariables.getPasssword());
                     }
                 }
                if (code.equalsIgnoreCase("200")) {
-                        sharedPrefEditor.putString("LastSavedUserName", savedEmail);
+                        sharedPrefEditor.putString("LastSavedEmail", savedEmail);
                         sharedPrefEditor.putString("LastSavedPassword", savedPwd);
                         sharedPrefEditor.apply();
                         globalVariables.setLoggedIn(true);
-
-
+                        globalVariables.setEmail(savedEmail);
 
                         if(!MainActivity.globalVariables.isActive()){
                             Toast.makeText(MainActivity.this, "User is not verified yet, Please verify phone number using the 'forget password' option", Toast.LENGTH_LONG).show();

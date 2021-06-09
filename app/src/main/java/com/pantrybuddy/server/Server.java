@@ -11,7 +11,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.pantrybuddy.activity.IWebService;
 import com.pantrybuddy.activity.MainActivity;
-import com.pantrybuddy.stubs.GlobalClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +36,7 @@ public class Server {
     public static final String URL_FETCH_USER_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product?";
     public static final String URL_FETCH_USER_DETAILS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/user/fetch?";
     public static final String URL_FETCH_EXPIRED_PRODUCTS = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/expired/products/fetch?";
+    public static final String URL_DELETE_PRODUCT = "http://" + SERVER_NAME + ":" + SERVER_PORT + "/api/product/delete?";
 
     private static final String ERROR_TAG = "Web Service Error";
     private static final String INFO_TAG = "Web Service INFO";
@@ -203,7 +203,11 @@ public class Server {
 
             @Override
             public void onResponse(JSONObject response) {
-                // ((IWebService) context).processResponse(response);
+                try {
+                    ((IWebService) context).processResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
             }
         }, new Response.ErrorListener() {
@@ -223,7 +227,11 @@ public class Server {
 
             @Override
             public void onResponse(JSONObject response) {
-                // ((IWebService) context).processResponse(response);
+                try {
+                    ((IWebService) context).processResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + emailId);
             }
         }, new Response.ErrorListener() {
@@ -310,6 +318,29 @@ public class Server {
         requestQueue = Volley.newRequestQueue(context);
         String FinalURL = URL_FETCH_EXPIRED_PRODUCTS + "&emailId=" + MainActivity.globalVariables.getEmail();
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FinalURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ((IWebService) context).processResponse(response);
+                    Log.d(INFO_TAG, "Webservice called :" + FinalURL + " : with :" + " email:" + MainActivity.globalVariables.getEmail());
+                } catch (JSONException e) {
+                    Log.d(ERROR_TAG, "Cannot fetch expired products.Error: " + e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(ERROR_TAG, "Cannot fetch expired products.Error: " + error.toString());
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
+    public void deleteProduct(String productName, String expiryDate) {
+        requestQueue = Volley.newRequestQueue(context);
+        String FinalURL = URL_DELETE_PRODUCT + "&emailId=" + MainActivity.globalVariables.getEmail() + "&productName=" + productName + "&expiryDate=" + expiryDate;
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, FinalURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

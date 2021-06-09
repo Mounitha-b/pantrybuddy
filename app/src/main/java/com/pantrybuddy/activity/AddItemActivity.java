@@ -45,7 +45,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class AddItemActivity extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity implements IWebService{
 
     private Button bScanBarcode;
     private TextView eItemName;
@@ -83,16 +83,10 @@ public class AddItemActivity extends AppCompatActivity {
         surfaceView=findViewById(R.id.svBarcodeScan);
         queue = Volley.newRequestQueue(this);
         barcodeText = findViewById(R.id.mltItemName);
+        server = new Server(this);
 
 
-//        bScanDate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                textRecognizer();
-//            }
-//        });
-
-        eDate.setOnClickListener(new View.OnClickListener() {
+       eDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal= Calendar.getInstance();
@@ -130,7 +124,6 @@ public class AddItemActivity extends AppCompatActivity {
                 String emailId = MainActivity.globalVariables.getEmail();
                 Log.d("INFO", "Email of user :" + emailId);
                 //Calling the product API to store the product details.
-                server = new Server(getApplicationContext());
                 if(productId!=null && !productId.isEmpty()) {
                     server.saveProduct(emailId, productId, expiryDate);
                 }else{
@@ -138,7 +131,6 @@ public class AddItemActivity extends AppCompatActivity {
                     server.saveProductManual(emailId, itemName, expiryDate);
                 }
 
-                startActivity(new Intent(AddItemActivity.this,ProfileActivity.class));
             }
         });
 
@@ -154,15 +146,8 @@ public class AddItemActivity extends AppCompatActivity {
 
     }
 
-//    private void textRecognizer() {
-//
-//        textRecognizer=new TextRecognizer.Builder(getApplicationContext().build());
-//    }
-
-    private void initialiseDetectorsAndSources(RequestQueue queue) {
-
+   private void initialiseDetectorsAndSources(RequestQueue queue) {
         Toast.makeText(getApplicationContext(), getString(R.string.msg_point_camera), Toast.LENGTH_SHORT).show();
-
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
@@ -202,7 +187,6 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
 
-
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
@@ -238,7 +222,6 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void getAPIResult(RequestQueue queue) {
-
         //String url = "https://api.upcdatabase.org/product/" + barcodeText.getText().toString() + "?apikey=5A7E28020FB2A4F78A8DE783FF2B3444\n";
         String url = "https://go.littlebunch.com/v1/food/" + barcodeText.getText().toString();
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -279,4 +262,14 @@ public class AddItemActivity extends AppCompatActivity {
         initialiseDetectorsAndSources(queue);
     }
 
+    @Override
+    public void processResponse(JSONObject responseObj) throws JSONException {
+        if (responseObj != null) {
+            String code = responseObj.get("Code").toString();
+            String message = responseObj.get("Message").toString();
+            if (code.equalsIgnoreCase("200")) {
+                startActivity(new Intent(AddItemActivity.this, ProfileActivity.class));
+            }
+        }
+    }
 }
